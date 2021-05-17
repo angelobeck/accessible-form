@@ -1,0 +1,234 @@
+{
+    "children": [
+        {
+            "id": "name",
+            "label": "Nome completo",
+            "required": true,
+            "filter": "free"
+        },
+        {
+            "id": "cpf",
+            "label": "CPF",
+            "required": true,
+            "filter": "numeric",
+            "template":"_________-__",
+            "validator": "cpf"
+        },
+        {
+            "id": "rg",
+            "label": "RG",
+            "filter": "numeric"
+        },
+        {
+            "id": "gender",
+            "label": "Sexo",
+            "filter": "select",
+            "children": [
+                {
+                    "value": "male",
+                    "label": "Masculino"
+                },
+                {
+                    "value": "female",
+                    "label": "Feminino"
+                }
+            ]
+        },
+        {
+            "id": "cep",
+            "label": "CEP",
+            "required": true,
+            "filter": "numeric",
+            "template":"_____-___",
+            "validator": "cep"
+        },
+        {
+            "id": "street",
+            "label": "Endereço",
+            "required": true,
+            "filter": "free"
+        },
+        {
+            "id": "number",
+            "label": "Número e complemento",
+            "required": true,
+            "filter": "free"
+        },
+        {
+            "id": "district",
+            "label": "Bairro",
+            "filter": "free"
+        },
+        {
+            "id": "city",
+            "label": "Cidade",
+            "filter": "free"
+        },
+        {
+            "id": "state",
+            "label": "Estado",
+            "filter": "select",
+            "children": [
+                {
+                    "value": "AC",
+                    "label": "Acre"
+                },
+                {
+                    "value": "AL",
+                    "label": "Alagoas"
+                },
+                {
+                    "value": "AM",
+                    "label": "Amazonas"
+                },
+                {
+                    "value": "AP",
+                    "label": "Amapá"
+                },
+                {
+                    "value": "BA",
+                    "label": "Bahia"
+                },
+                {
+                    "value": "CE",
+                    "label": "Ceará"
+                },
+                {
+                    "value": "DF",
+                    "label": "Distrito Federal"
+                },
+                {
+                    "value": "ES",
+                    "label": "Espírito Santo"
+                },
+                {
+                    "value": "GO",
+                    "label": "Goiás"
+                },
+                {
+                    "value": "MA",
+                    "label": "Maranhão"
+                },
+                {
+                    "value": "MG",
+                    "label": "Minas Gerais"
+                },
+                {
+                    "value": "MS",
+                    "label": "Mato Grosso do Sul"
+                },
+                {
+                    "value": "MT",
+                    "label": "Mato Grosso"
+                },
+                {
+                    "value": "PA",
+                    "label": "Pará"
+                },
+                {
+                    "value": "PB",
+                    "label": "Paraíba"
+                },
+                {
+                    "value": "PE",
+                    "label": "Pernambuco"
+                },
+                {
+                    "value": "PI",
+                    "label": "Piauí"
+                },
+                {
+                    "value": "PR",
+                    "label": "Paraná"
+                },
+                {
+                    "value": "RJ",
+                    "label": "Rio de Janeiro"
+                },
+                {
+                    "value": "RN",
+                    "label": "Rio Grande do Norte"
+                },
+                {
+                    "value": "RO",
+                    "label": "Rondônia"
+                },
+                {
+                    "value": "RR",
+                    "label": "Roraima"
+                },
+                {
+                    "value": "RS",
+                    "label": "Rio Grande do Sul"
+                },
+                {
+                    "value": "SC",
+                    "label": "Santa Catarina"
+                },
+                {
+                    "value": "SE",
+                    "label": "Sergipe"
+                },
+                {
+                    "value": "SP",
+                    "label": "São Paulo"
+                },
+                {
+                    "value": "TO",
+                    "label": "Tocantins"
+                }
+            ]
+        },
+        {
+            "id": "phone",
+            "label": "Telefone fixo",
+            "filter": "numeric",
+            "template":"(__) ____-____",
+            "validator": "phone"
+        },
+        {
+            "id": "mobile",
+            "label": "Telefone celular",
+            "required": true,
+            "filter": "numeric",
+            "template":"(__) _____-____",
+            "validator": "mobile"
+        },
+        {
+            "id": "service_terms",
+            "label": "Li e concordo com os termos que regem este serviço.",
+            "required": true,
+            "filter": "checkbox",
+            "error_msg": "Para continuar, você precisa concordar com nossos termos de serviços."
+        },
+        {
+            "id": "action_service_terms",
+            "label": "Consultar os termos de serviço",
+            "filter": "button",
+            "action": "serviceTerms"
+        },
+        {
+            "id": "privacy_policy",
+            "label": "Estou ciente da política de privacidade aplicada aos meus dados pessoais.",
+            "required": true,
+            "filter": "checkbox",
+            "error_msg": "Para continuar, você precisa concordar com nossa política de privacidade."
+        },
+        {
+            "id": "action_privacy_policy",
+            "label": "Consultar política de privacidade",
+            "filter": "button",
+            "action": "privacyPolicy"
+        },
+        {
+            "id": "separator",
+            "filter": "separator"
+        },
+        {
+            "id": "action_submit",
+            "label": "Cadastrar-me",
+            "filter": "button",
+            "action": "submit"
+        }
+    ]
+}
