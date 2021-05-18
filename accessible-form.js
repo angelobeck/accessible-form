@@ -17,13 +17,12 @@ function eventLoad() {
 function createFormulary(controls) {
     element = document.createElement("DIV");
     document.body.appendChild(element);
-    var fields = [];
     for (let i = 0; i < controls.children.length; i++) {
         let control = controls.children[i];
         let field = false;
         switch (control.filter) {
             case "free":
-                field = new filter(control);
+                field = new filterFree(control);
                 break;
             case "select":
                 field = new filterSelect(control);
@@ -43,9 +42,17 @@ function createFormulary(controls) {
         }
         if (!field)
             continue;
-        fields.push(field);
+        formularyControls.push(field);
         field.create(element);
     }
 }
 
 window.addEventListener("load", eventLoad);
+
+function hiddeAllTips() {
+    for (let i = 0; i < formularyControls.length; i++) {
+        let control = formularyControls[i];
+        if (control.tip)
+            control.tip.hidden = true;
+    }
+}

@@ -7,17 +7,19 @@ class filter {
     }
 
     create(parentElement) {
+        this.tip = document.createElement("SPAN");
+        this.tip.className = "tip";
+        this.tip.hidden = true;
+        this.tip.setAttribute("aria-live", "polite");
+
         this.label = document.createElement("LABEL");
         this.label.setAttribute("for", this.id);
         this.label.appendChild(document.createTextNode(this.control.label));
-
-        this.tip = document.createElement("SPAN");
-        this.tip.setAttribute("aria-live", "polite");
-
         this.label.appendChild(this.tip);
 
         this.input = document.createElement("INPUT");
         this.input.id = this.id;
+        this.input.filter = this;
 
         this.container = document.createElement("DIV");
         this.container.className = "form-container";
@@ -35,10 +37,45 @@ class filter {
 
         if (value == "")
             return "required";
+
+        return "ok";
+    }
+
+    eventFocus() {
+        hiddeAllTips();
+        this.tip.hidden = false;
+        this.updateTip();
+    }
+
+    updateTip() {
+        var message = this.check();
+        const messages = {
+            ok: { className: "ok", text: "Ok" },
+            required: { className: "error", text: "Campo obrigatório" },
+            continue: { className: "attention", text: "Continue a digitar" },
+            cpf_invalid: { className: "error", text: "CPF não validado" },
+            cep_requesting: { className: "attention", text: "Buscando endereço..." },
+            cep_found: { className: "ok", text: "Endereço encontrado" },
+            cep_not_found: { className: "error", text: "Endereço não encontrado" }
+        }
+        if (this.tip.innerHTML == messages[message].text)
+            return;
+        this.tip.innerHTML = messages[message].text;
+        this.tip.className = messages[message].className;
     }
 
     get value() {
         return this.input.value;
+    }
+
+}
+
+class filterFree extends filter {
+
+    create(parentElement) {
+        super.create(parentElement);
+        this.input.onfocus = function () { this.filter.eventFocus(); };
+        this.input.onkeyup = function () { this.filter.updateTip(); };
     }
 
 }
@@ -127,22 +164,15 @@ class filterNumeric extends filter {
     create(parentElement) {
         super.create(parentElement);
         this.input.setAttribute("type", "tel");
+        this.input.onfocus = function () { this.filter.eventFocus(); };
+
         if (!this.control.template)
             return;
-        this.input.filter = this;
         this.input.value = this.control.template;
         this.input.onkeyup = function () { this.filter.eventKeyUp(); };
         this.input.onkeydown = function (event) { this.filter.eventKeyDown(event); };
-        this.input.onfocus = function (event) { this.filter.eventFocus(event); };
     }
 
-    eventFocus(){
-        if(this.input.value == this.control.template){
-            this.input.selectionStart = 0;
-            this.input.selectionEnd = 0;
-        }
-    }
-    
     eventKeyDown(event) {
         if (event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
             return;
@@ -207,11 +237,7 @@ class filterNumeric extends filter {
         this.updateTip();
     }
 
-    updateTip() {
-        this.tip.innerHTML = this.validate();
-    }
-
-    validate() {
+    check() {
         if (!this.input.value.match(/[0-9]/)) {
             if (this.control.required)
                 return "required";
@@ -232,23 +258,100 @@ class filterNumeric extends filter {
     }
 
     validateCpf() {
-        var value = this.input.value;
-        if (value == "")
-            return "required";
-        if (value.match(/^[0-9]{9}[-]?[0-9]{2}$/))
-            return "ok";
+        var cpf = this.input.value.slice(0, 9) + this.input.value.slice(10, 12);
+        var Soma = 0;
+        var dv;
+        if (cpf == "00000000000")
+            return "cpf_invalid";
 
-        return "continue";
+        for (let i = 1; i <= 9; i++) {
+            Soma = Soma + parseInt(cpf.substr(i - 1, 1)) * (11 - i);
+        }
+        dv = (Soma * 10) % 11;
+
+        if ((dv == 10) || (dv == 11))
+            dv = 0;
+        if (dv != parseInt(cpf.substring(9, 10)))
+            return "cpf_invalid";
+
+        Soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            Soma = Soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+        dv = (Soma * 10) % 11;
+
+        if ((dv == 10) || (dv == 11))
+            dv = 0;
+        if (dv != parseInt(cpf.substring(10, 11)))
+            return "cpf_invalid";
+
+        return "ok";
     }
 
     validateCep() {
-        var value = this.input.value;
-        if (value == "")
-            return "required";
-        if (value.match(/^[0-9]{5}[-]?[0-9]{2}$/))
-            return "ok";
+        if (this.status == "cep_requesting")
+            return "cep_requesting";
 
-        return "continue";
+        var cep = this.input.value.slice(0, 5) + this.input.value.slice(6, 9);
+        if (this.cep == cep)
+            return this.status;
+        this.cep = cep;
+        this.status = "cep_requesting";
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (this.readyState != 4 || this.status != 200)
+                return;
+
+            var filter = document.getElementById("cep").filter;
+            var received = JSON.parse(this.responseText);
+
+            const fields = {
+                street: "logradouro",
+                district: "bairro",
+                city: "localidade",
+                state: "uf"
+            }
+
+            for (let id in fields) {
+                let field = fields[id];
+                if (!received[field] || received[field] == "") {
+                    filter.status = "cep_not_found";
+                    filter.updateTip();
+                    return;
+                }
+            }
+
+            for (let id in fields) {
+                let field = fields[id];
+                let input = document.getElementById(id);
+                if (id == "state") {
+                    for (let index = 0; index < input.options.length; index++) {
+                        if (input.options[index].value == received[field]) {
+                            input.selectedIndex = index;
+                            break;
+                        }
+                    }
+                } else {
+                    input.value = received[field];
+                }
+            }
+
+            filter.status = "cep_found";
+            filter.updateTip();
+        }
+        request.open("GET", "https://viacep.com.br/ws/" + cep + "/json/", true);
+        request.send();
+
+        setTimeout(function (filter) {
+            if (filter.status != "cep_requesting")
+                return;
+
+            filter.status = "cep_not_found";
+            filter.updateTip();
+        }, 3000, this);
+
+        return "cep_requesting";
     }
 
 }
