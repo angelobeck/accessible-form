@@ -1,10 +1,10 @@
-{
+﻿{
     "children": [
         {
             "id": "name",
             "label": "Nome completo",
             "required": true,
-            "filter": "free"
+            "filter": "text"
         },
         {
             "id": "cpf",
@@ -46,23 +46,23 @@
             "id": "street",
             "label": "Endereço",
             "required": true,
-            "filter": "free"
+            "filter": "text"
         },
         {
             "id": "number",
             "label": "Número e complemento",
             "required": true,
-            "filter": "free"
+            "filter": "text"
         },
         {
             "id": "district",
             "label": "Bairro",
-            "filter": "free"
+            "filter": "text"
         },
         {
             "id": "city",
             "label": "Cidade",
-            "filter": "free"
+            "filter": "text"
         },
         {
             "id": "state",
@@ -228,7 +228,7 @@
             "id": "action_submit",
             "label": "Cadastrar-me",
             "filter": "button",
-            "action": "submit"
+            "action": "review"
         }
     ]
 }

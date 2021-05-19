@@ -1,6 +1,6 @@
 
-var formularyData = [];
 var formularyControls = [];
+var tabs = {};
 
 function eventLoad() {
     var request = new XMLHttpRequest();
@@ -15,14 +15,14 @@ function eventLoad() {
 }
 
 function createFormulary(controls) {
-    element = document.createElement("DIV");
-    document.body.appendChild(element);
+    tabs.form = new tabForm();
+
     for (let i = 0; i < controls.children.length; i++) {
         let control = controls.children[i];
         let field = false;
         switch (control.filter) {
-            case "free":
-                field = new filterFree(control);
+            case "text":
+                field = new filterText(control);
                 break;
             case "select":
                 field = new filterSelect(control);
@@ -43,16 +43,15 @@ function createFormulary(controls) {
         if (!field)
             continue;
         formularyControls.push(field);
-        field.create(element);
+        field.create(tabs.form.element);
     }
+
+    tabs.serviceTerms = new tabServiceTerms();
+    tabs.privacyPolicy = new tabPrivacyPolicy();
+    tabs.alert = new tabAlert();
+    tabs.review = new tabReview();
+    tabs.done = new tabDone();
 }
 
 window.addEventListener("load", eventLoad);
 
-function hiddeAllTips() {
-    for (let i = 0; i < formularyControls.length; i++) {
-        let control = formularyControls[i];
-        if (control.tip)
-            control.tip.hidden = true;
-    }
-}

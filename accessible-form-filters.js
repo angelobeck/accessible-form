@@ -1,4 +1,4 @@
-
+﻿
 class filter {
 
     constructor(control) {
@@ -22,7 +22,7 @@ class filter {
         this.input.filter = this;
 
         this.container = document.createElement("DIV");
-        this.container.className = "form-container";
+        this.container.className = "form-group";
         this.container.appendChild(this.label);
         this.container.appendChild(this.input);
 
@@ -42,7 +42,7 @@ class filter {
     }
 
     eventFocus() {
-        hiddeAllTips();
+        this.hiddeAllTips();
         this.tip.hidden = false;
         this.updateTip();
     }
@@ -50,18 +50,26 @@ class filter {
     updateTip() {
         var message = this.check();
         const messages = {
-            ok: { className: "ok", text: "Ok" },
-            required: { className: "error", text: "Campo obrigatório" },
-            continue: { className: "attention", text: "Continue a digitar" },
-            cpf_invalid: { className: "error", text: "CPF não validado" },
-            cep_requesting: { className: "attention", text: "Buscando endereço..." },
-            cep_found: { className: "ok", text: "Endereço encontrado" },
-            cep_not_found: { className: "error", text: "Endereço não encontrado" }
+            ok: { className: "tip-ok", text: "Ok" },
+            required: { className: "tip-error", text: "Campo obrigatório" },
+            continue: { className: "tip-alert", text: "Continue a digitar" },
+            cpf_invalid: { className: "tip-error", text: "CPF não validado" },
+            cep_requesting: { className: "tip-alert", text: "Buscando endereço..." },
+            cep_found: { className: "tip-ok", text: "Endereço encontrado" },
+            cep_not_found: { className: "tip-error", text: "Endereço não encontrado" }
         }
         if (this.tip.innerHTML == messages[message].text)
             return;
         this.tip.innerHTML = messages[message].text;
         this.tip.className = messages[message].className;
+    }
+
+    hiddeAllTips() {
+        for (let i = 0; i < formularyControls.length; i++) {
+            let control = formularyControls[i];
+            if (control.tip)
+                control.tip.hidden = true;
+        }
     }
 
     get value() {
@@ -70,7 +78,7 @@ class filter {
 
 }
 
-class filterFree extends filter {
+class filterText extends filter {
 
     create(parentElement) {
         super.create(parentElement);
@@ -96,7 +104,7 @@ class filterCheckbox extends filter {
         this.input.id = this.id;
 
         this.container = document.createElement("DIV");
-        this.container.className = "form-container-checkbox";
+        this.container.className = "form-group-checkbox";
         this.container.appendChild(this.input);
         this.container.appendChild(this.label);
 
@@ -107,10 +115,7 @@ class filterCheckbox extends filter {
         if (this.input.checked || !this.control.required)
             return "ok";
 
-        if (this.control.error_msg)
-            return this.control.error_msg;
-
-        return "required";
+        return this.id + '_agree';
     }
 
     get value() {
@@ -151,6 +156,10 @@ class filterSelect extends filter {
         this.container.appendChild(this.input);
 
         parentElement.appendChild(this.container);
+    }
+
+    get value() {
+        return this.input.options[this.input.selectedIndex].text;
     }
 
 }
@@ -354,6 +363,13 @@ class filterNumeric extends filter {
         return "cep_requesting";
     }
 
+    get value() {
+        if (this.control.template && this.input.value == this.control.template)
+            return "";
+
+        return this.input.value;
+    }
+
 }
 
 class filterButton extends filter {
@@ -365,9 +381,11 @@ class filterButton extends filter {
     create(parentElement) {
         this.input = document.createElement("BUTTON");
         this.input.appendChild(document.createTextNode(this.control.label));
+        this.input.filter = this;
+        this.input.onclick = function () { this.filter.eventClick(); };
 
         this.container = document.createElement("DIV");
-        this.container.className = "form-container-button";
+        this.container.className = "form-group-button";
         this.container.appendChild(this.input);
 
         parentElement.appendChild(this.container);
@@ -375,6 +393,11 @@ class filterButton extends filter {
 
     check() {
         return "ok";
+    }
+
+    eventClick() {
+        tabs[this.control.action].show();
+        window.scrollTo(0, 0);
     }
 
     get value() {
