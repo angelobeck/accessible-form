@@ -1,7 +1,7 @@
 
 * { box-sizing:border-box; }
 body { background-color:#369; color:#fff; font-family:'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif; }
-input, select { background-color:#fff; color:#000; }
+input, select { background-color:#fff; color:#000; flex-grow: 1; }
 button { background-color:#58b; }
 button, input, select { box-shadow: 0 0 0 0.7rem rgba(0, 0, 0, 0.3); }
 .tip-ok { color: #9f9; }
@@ -9,11 +9,11 @@ button, input, select { box-shadow: 0 0 0 0.7rem rgba(0, 0, 0, 0.3); }
 .tip-error { color: #f99; }
 hr { width:100%; border: 0; border-top: 1px solid white; margin: 1em 0; }
 body > * { width: 50%; margin-left: auto; margin-right: auto; }
-.form-group, .form-group-checkbox { display:flex; padding-top:1rem; }
-.form-group-button { padding-top: 1rem; padding-left: 30%; }
-.form-group > label { position:relative; flex-basis: 30%; flex-grow: 0; }
+.form-group, .form-group-checkbox { padding-top:1rem; width:100%; }
+.form-group-button { padding-top: 1rem; padding-left: 30%; width:100%; }
+.form-group > label { display:inline-block; position:relative; width:16vw; }
 .form-group-checkbox > :first { width:2rem; }
-
+input, select { width:32vw;  }
 label, input, select, button {
     border: none;
     border-radius:0.3rem;
@@ -21,7 +21,7 @@ label, input, select, button {
     padding: 0.5, 0.5, 0;
 }
 button { padding-left: 2em; padding-right: 2em; }
-.short { width:23vw; }
+input.short, select.short { width:20vw; }
 .tip-ok, .tip-alert, .tip-error {
     background-color: rgba(0, 0, 0, 0.5);
     bottom:110%;

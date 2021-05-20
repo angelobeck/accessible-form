@@ -151,7 +151,7 @@ class filterSelect extends filter {
             }
         }
         this.container = document.createElement("DIV");
-        this.container.className = "form-container";
+        this.container.className = "form-group";
         this.container.appendChild(this.label);
         this.container.appendChild(this.input);
 
