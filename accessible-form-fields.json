@@ -23,6 +23,7 @@
             "id": "gender",
             "label": "Sexo",
             "filter": "select",
+            "short": true,
             "children": [
                 {
                     "value": "male",
@@ -52,7 +53,8 @@
             "id": "number",
             "label": "Número e complemento",
             "required": true,
-            "filter": "text"
+            "filter": "text",
+            "shoft": true
         },
         {
             "id": "district",
@@ -195,6 +197,10 @@
             "validator": "mobile"
         },
         {
+            "id": "separator",
+            "filter": "separator"
+        },
+        {
             "id": "service_terms",
             "label": "Li e concordo com os termos que regem este serviço.",
             "required": true,
@@ -221,7 +227,7 @@
             "action": "privacyPolicy"
         },
         {
-            "id": "separator",
+            "id": "separator2",
             "filter": "separator"
         },
         {

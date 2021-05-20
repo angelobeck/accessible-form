@@ -1,77 +1,49 @@
 
-* {
-    box-sizing:border-box;
-}
+* { box-sizing:border-box; }
+body { background-color:#369; color:#fff; font-family:'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif; }
+input, select { background-color:#fff; color:#000; }
+button { background-color:#58b; }
+button, input, select { box-shadow: 0 0 0 0.7rem rgba(0, 0, 0, 0.3); }
+.tip-ok { color: #9f9; }
+.tip-alert { color: #ff9; }
+.tip-error { color: #f99; }
+hr { width:100%; border: 0; border-top: 1px solid white; margin: 1em 0; }
+body > * { width: 50%; margin-left: auto; margin-right: auto; }
+.form-group, .form-group-checkbox { display:flex; padding-top:1rem; }
+.form-group-button { padding-top: 1rem; padding-left: 30%; }
+.form-group > label { position:relative; flex-basis: 30%; flex-grow: 0; }
+.form-group-checkbox > :first { width:2rem; }
 
-/* Colors */
-
-body {
-    background-color:#369;
-    color:#fff;
-    font-family:'Franklin Gothic Medium','Arial Narrow',Arial,sans-serif;
-}
-
-input, select {
-    background-color:#fff; color:#000;
-}
-
-button {
-    border:1px solid white;
-    background-color:#58b;
-}
-
-.tip-ok {
-    background-color:rgba(0, 0, 0, 0.5);
-    color: #9f9;
-}
-
-.tip-alert {
-    background-color:rgba(0, 0, 0, 0.5);
-    color: #ff9;
-}
-
-.tip-error {
-    background-color:rgba(0, 0, 0, 0.5);
-    color: #f99;
-}
-
-/* Positioning */
-
-.form-group, .form-group-checkbox {
-    display:flex;
-    padding-top:0.5rem;
-}
-
-.form-group > label {
-    position:relative;
-    flex-basis: 200px;
-    flex-grow: 0;
-}
-
-.form-group-checkbox > :first {
-    width:2rem;
-}
-
-input, select {
+label, input, select, button {
     border: none;
     border-radius:0.3rem;
     height:2rem;
     padding: 0.5, 0.5, 0;
 }
-
+button { padding-left: 2em; padding-right: 2em; }
+.short { width:23vw; }
 .tip-ok, .tip-alert, .tip-error {
+    background-color: rgba(0, 0, 0, 0.5);
     bottom:110%;
     left:100%;
+    width:23vw;
     position:absolute;
+    box-shadow: 0 0 0 0.3rem rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
 
 .alert-modal {
     position:fixed;
-    top:2rem;
-    left:3rem;
+    top: 3rem;
     right:3rem;
-    background-color:#f00;
+    width: 30vw;
+    background-color:#800;
+    color: #fff;
     border: 1px solid white;
     padding:2em;
+    box-shadow: 0 0 0 0.7rem rgba(0, 0, 0, 0.5);
 }
+
+.center { text-align:center; }
+.center > * { display: inline-block; margin-left: 1rem; }
+.center > :first { margin-left: 0; }

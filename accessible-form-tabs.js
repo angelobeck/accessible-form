@@ -1,4 +1,4 @@
-
+﻿
 class tab {
 
     constructor() {
@@ -61,12 +61,11 @@ class tabAlert extends tab {
                 break;
 
         }
-        buffer += '<button onclick="tabs.alert.goBack()">Corrigir</button>';
+        buffer += '<hr><div class="center"><button onclick="tabs.alert.goBack()">Corrigir</button></div>';
         this.element.innerHTML = buffer;
-        this.element.className = "alert-modal";
+        setTimeout(function (element) { element.className = "alert-modal"; }, 10, this.element);
         this.element.hidden = false;
     }
-
 
     goBack() {
         this.element.hidden = true;
@@ -103,7 +102,7 @@ class tabReview extends tab {
             buffer += '<tr><td>' + filter.control.label + '</td><td>' + filter.value + '</td></tr>';
         }
         buffer += '</table>';
-        buffer += '<button onclick="tabs.form.show()">Retroceder</button><button onclick="tabs.done.show()">Concluir</button>';
+        buffer += '<hr><div class="center"><button onclick="tabs.form.show()">Retroceder</button><button onclick="tabs.done.show()">Concluir</button></div>';
         this.element.innerHTML = buffer;
     }
 
@@ -111,23 +110,26 @@ class tabReview extends tab {
 
 class tabForm extends tab {
 
+    constructor() {
+        super();
+        this.title = document.createElement("h2");
+        this.title.appendChild(document.createTextNode("Seus dados pessoais"));
+
+        this.element.appendChild(this.title);
+    }
+
 }
 
 class tabServiceTerms extends tab {
-
-    constructor() {
-        super();
-        this.hasLoaded = false;
-    }
 
     show() {
         this.hideAllTabs();
         this.element.hidden = false;
         var buffer = '<h2>Termos de serviço</h2>';
-        buffer += '<button onclick="tabs.serviceTerms.goBack();">Voltar</button>';
+        buffer += '<p>Que milagre! Alguém lendo os termos de serviço!</p>';
+        buffer += '<hr><div class="center"><button onclick="tabs.serviceTerms.goBack();">Voltar</button></div>';
         this.element.innerHTML = buffer;
     }
-
 
     goBack() {
         tabs.form.show();
@@ -146,7 +148,8 @@ class tabPrivacyPolicy extends tab {
         this.hideAllTabs();
         this.element.hidden = false;
         var buffer = '<h2>Política de privacidade</h2>';
-        buffer += '<button onclick="tabs.privacyPolicy.goBack()">Voltar</button>';
+        buffer += '<p>Não diga que não avisei!</p>';
+        buffer += '<hr><div class="center"><button onclick="tabs.privacyPolicy.goBack()">Voltar</button></div>';
         this.element.innerHTML = buffer;
     }
 

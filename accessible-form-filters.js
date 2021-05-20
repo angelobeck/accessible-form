@@ -20,6 +20,8 @@ class filter {
         this.input = document.createElement("INPUT");
         this.input.id = this.id;
         this.input.filter = this;
+        if (this.control.short)
+            this.input.className = "short";
 
         this.container = document.createElement("DIV");
         this.container.className = "form-group";
@@ -129,10 +131,6 @@ class filterCheckbox extends filter {
 
 class filterSelect extends filter {
 
-    constructor(control) {
-        super(control);
-    }
-
     create(parentElement) {
         this.label = document.createElement("LABEL");
         this.label.setAttribute("for", this.id);
@@ -140,6 +138,8 @@ class filterSelect extends filter {
 
         this.input = document.createElement("SELECT");
         this.input.id = this.id;
+        if(this.control.short)
+            this.input.className = "short";
 
         if (this.control.children) {
             for (let i = 0; i < this.control.children.length; i++) {
@@ -174,6 +174,7 @@ class filterNumeric extends filter {
         super.create(parentElement);
         this.input.setAttribute("type", "tel");
         this.input.onfocus = function () { this.filter.eventFocus(); };
+        this.input.className = "short";
 
         if (!this.control.template)
             return;
