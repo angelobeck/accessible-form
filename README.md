@@ -1,6 +1,36 @@
-# accessible-form
+﻿# accessible-form
 
 Um exemplo de formulário acessível e considerações sobre acessibilidade com HTML e JavaScript
+
+## Características
+
+** Verificação de CPF
+* Busca automática de endereço a partir do CEP
+* Máscara de preenchimento para valores numéricos
+* Ao focalizar um campo, uma dica é exibida, indicando se o campo foi preenchido corretamente
+* Se for feita uma tentativa de enviar o formulário com campos incompletos, preenchidos incorretamente  ou não preenchidos, uma mensagem amigável é exibida e o processo não prossegue
+* Quando o usuário escolhe "Corrigir" na mensagem de aviso, o foco é transferido automaticamente para o campo com problema
+* Tela de verificação dos dados que permite retornar ou prosseguir
+* Página para os termos de serviço
+* Página para a política de privacidade
+* Página de conclusão
+
+# Funcionamento
+
+Um arquivo JSON descreve uma lista de todos os campos que devem ser exibidos no formulário, indicando, para cada campo 
+
+* ID
+* Legenda
+* Preenchimento obrigatório
+* Tipo de filtro a ser utilizado
+* Máscara para campos numéricos
+* Subitens para campos select
+
+Após requisitar via XMLHttpRequest esta lista, um loop a percorre, criando objetos a partir de um conjunto de classes prefixadas por "filter".
+
+Estes objetos produzem elementos HTML e os inserem no documento e mantêm controle sobre estes elementos.
+
+Um outro conjunto de classes, prefixados por "frame", produz as páginas, permitindo a alternância entre o conteúdo.
 
 ## Acessibilidade com leitores de tela
 
