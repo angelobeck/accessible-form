@@ -32,6 +32,11 @@ Estes objetos produzem elementos HTML e os inserem no documento e mantêm contro
 
 Um outro conjunto de classes, prefixados por "frame", produz as páginas, permitindo a alternância entre o conteúdo.
 
+## A implementar
+
+* Para melhorar a experiência com o leitor de tela, a mensagem que surge quando o usuário tenta enviar o formulário com problemas deve receber o foco do leitor de tela.
+* O visual precisa se tornar responsivo para o uso em dispositivos com telas pequenas
+
 ## Acessibilidade com leitores de tela
 
 O acesso com leitores de tela - que é meu caso - costuma ser pouco entendido pelos desenvolvedores, o que é perfeitamente compreensível.
